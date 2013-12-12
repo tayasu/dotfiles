@@ -1,0 +1,9 @@
+[submodule ".zsh/z"]
+	path = .zsh/z
+	url = https://github.com/rupa/z.git
+[submodule ".zsh/zsh-completions"]
+	path = .zsh/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions.git
+[submodule ".zsh/auto-fu.zsh"]
+	path = .zsh/auto-fu.zsh
+	url = https://github.com/hchbaw/auto-fu.zsh.git
