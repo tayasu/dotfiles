@@ -1,30 +1,15 @@
+#PATH
+PATH=/usr/local/bin:$PATH
+
 # alias
 alias ls='ls -GF'
+alias grep='grep -sn'
 alias e='open -a Emacs'
 alias emacs='TERM=xterm-256color /usr/local/Cellar/emacs/24.3/bin/emacs'
 
 # colors
 autoload -Uz colors
 colors
-
-if [[ -f $HOME/.zsh/antigen/antigen.zsh ]]; then
-  source $HOME/.zsh/antigen/antigen.zsh
-
-  # Load the oh-my-zsh's library.
-  #antigen-lib
-
-  # Bundles from the default app.
-  antigen-bundles <<EOBUNDLES
-  git
-  zsh-users/zsh-syntax-highlighting
-EOBUNDLES
-
-  # Load the Theme
-  #antigen-theme yuuki
-
-  # Tell antigen that you're done.
-  antigen-apply
-fi
 
 # PROMPT
 setopt prompt_subst
@@ -49,7 +34,7 @@ fpath=(~/.zsh/zsh-completions/src $fpath)
 autoload -U compinit; compinit
 
 # Hide rprompt when command exec
-#setopt transient_rprompt
+setopt transient_rprompt
 
 # No beep
 setopt no_beep
@@ -74,5 +59,22 @@ zstyle ':completion:*:default' menu select
 # Trace command exec
 #setopt xtrace
 
-#zsh-syntax-highlighting
+# zsh-syntax-highlighting
 #source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# z
+_Z_CMD=j
+source ~/.zsh/z/z.sh
+precomd() {
+  _z --add "$(pwd -P)"
+}
+ 
+# auto-fu
+if [ -f ~/.zsh/auto-fu.zsh/auto-fu.zsh ]; then
+  source ~/.zsh/auto-fu.zsh/auto-fu.zsh
+  function zle-line-init() {
+    auto-fu-init
+  }
+  zle -N zle-line-init
+  zstyle ':completion:*' completer _oldlist _complete
+fi

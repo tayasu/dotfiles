@@ -1,10 +1,10 @@
-
 ;; Command-Key and Option-Key
 (setq ns-command-modifier (quote meta))
 (setq ns-alternate-modifier (quote super))
 
 ;; I'm japanese
 (set-language-environment "Japanese")
+(prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
@@ -195,12 +195,37 @@
 (setq display-buffer-function 'popwin:display-buffer)
 (setq popwin:popup-window-position 'bottom)
 
+;; php-mode
+(setq php-mode-force-pear t)
+
+(add-hook 'php-mode-hook
+  '(lambda ()
+     (c-set-offset 'case-label' 4)
+     (c-set-offset 'arglist-intro' 4)
+     (c-set-offset 'arglist-cont-nonempty' 4)
+     (c-set-offset 'arglist-close' 0)
+     (require 'php-completion)
+     (php-completion-mode t)
+     (define-key php-mode-map (kbd "C-o") 'phpcmp-complete)
+     (make-local-variable 'ac-sources)
+            (setq ac-sources '(
+                               ac-source-words-in-same-mode-buffers
+                               ac-source-php-completion
+                               ac-source-filename
+                               ))))
+
 ;; flymake-php
 (require 'flymake-php)
 (add-hook 'php-mode-hook 'flymake-php-load)
 
 ;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(setq js2-basic-offset 2)
 
 ;; git-gutter+
 (global-git-gutter+-mode t)
+
+;; sr-speedbar
+(require 'sr-speedbar)
+(setq sr-speedbar-right-side nil)
+(global-set-key (kbd "s-s") 'sr-speedbar-toggle)
